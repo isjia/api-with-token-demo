@@ -8,11 +8,27 @@ var config = require('./config'); // 读取配置文件 config.js 信息
 var User = require('./app/models/user'); // 获取 User model 信息
 var ContactUs = require('./app/models/contact_us'); // 获取联系我们的信息
 
+// Allow CORS REST request
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+
+    // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+      res.send(200);
+    }
+    else {
+      next();
+    }
+};
+
 // 配置
 var port = config.port || 8080; // 设置启动端口
 mongoose.connect(config.database); // 连接数据库
 
 var app = express();
+app.use(allowCrossDomain);
 app.set('superSecret', config.secret); // 设置 app 的超级密码，即用来生成摘要的密码
 
 // 用 body parser 来解析post 和 url 信息中的参数

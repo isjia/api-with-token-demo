@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 var jwt = require('jsonwebtoken'); // 用来创建和确认用户摘要信息
 var config = require('./config'); // 读取配置文件 config.js 信息
 var User = require('./app/models/user'); // 获取 User model 信息
+var ContactUs = require('./app/models/contact_us'); // 获取联系我们的信息
 
 // 配置
 var port = config.port || 8080; // 设置启动端口
@@ -25,6 +26,32 @@ app.use(morgan('dev'));
 // app.get('/', function(req, res){
 //   res.send('Hello! The API is at http://localhost:' + port + '/api');
 // });
+
+// 联系我们的路由
+app.post('/contactus/new', function(req, res){
+  // 创建一个联系我们的消息
+  var msg = new ContactUs({
+    name: req.body.name,
+    email: req.body.email,
+    phone: req.body.phone,
+    message: req.body.message,
+    host: req.get('host')
+  });
+
+  // 保存到数据库中
+  msg.save(function(err){
+    if(err) throw err;
+
+    console.log('Contact Msg saved successfully');
+    res.json({success: true});
+  });
+});
+
+app.get('/contactus', function(req, res){
+  ContactUs.find({}, function(err, messages){
+    res.json(messages);
+  });
+});
 
 // 添加用户的路由
 app.get('/user/new', function(req, res){

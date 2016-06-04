@@ -7,6 +7,7 @@ module.exports = mongoose.model('ContactUs', new Schema({
   email: String,
   phone: String,
   message: String,
+  host: String,
   createdAt: {
     type: Date,
     default: Date.now()

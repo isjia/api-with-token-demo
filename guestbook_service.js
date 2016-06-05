@@ -11,8 +11,23 @@ var GuestBook = require('./app/models/guest_book');
 var port = config.guestbook_service_port || 8080;
 mongoose.connect(config.database);
 
-var app = express();
+// Allow CORS REST request
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,POST');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
 
+    // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+      res.send(200);
+    }
+    else {
+      next();
+    }
+};
+
+var app = express();
+app.use(allowCrossDomain);
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 

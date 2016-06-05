@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
 
-var config = require('./config');
+var config = require('./production_config');
 
 var Message = require('./app/models/contact_us');
 var GuestBook = require('./app/models/guest_book');

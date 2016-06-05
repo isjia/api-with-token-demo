@@ -1,5 +1,5 @@
 module.exports = {
-  'secret': '62En2NvsCKVK',
+  'secret': '1234567890',
   'database':'mongodb://127.0.0.1/apitest',
-  'guestbook_service_port': '8081'
+  'port': '8080'
 };

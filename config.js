@@ -1,5 +1,5 @@
 module.exports = {
-  'secret': 'api.abitr.com',
+  'secret': '62En2NvsCKVK',
   'database':'mongodb://127.0.0.1/apitest',
-  // 'port': '8003'
+  'guestbook_service_port': '8081'
 };

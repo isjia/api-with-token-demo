@@ -51,7 +51,8 @@ app.post('/contactus/new', function(req, res){
     email: req.body.email,
     phone: req.body.phone,
     message: req.body.message,
-    host: req.get('host')
+    // host: req.get('host')
+    status: 'new'
   });
 
   // 保存到数据库中

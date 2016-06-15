@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
+var path = require('path');
 
 var config = require('./production_config');
 
@@ -27,10 +28,14 @@ var allowCrossDomain = function(req, res, next) {
 };
 
 var app = express();
+
+app.set('views', './app/views/pages'); //设置视图跟目录
+app.set('view engine', 'jade'); // 设置默认的模板引擎
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(allowCrossDomain);
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-
+app.locals.moment = require('moment');
 app.use(morgan('dev'));
 
 app.get('/'+ config.secret +'/wizdigital/', function(req, res){
@@ -48,7 +53,11 @@ app.get('/'+ config.secret +'/wizdigital/', function(req, res){
 
 app.get('/'+ config.secret +'/guestbooks', function(req, res){
   GuestBook.find({}, function(err, guestbooks){
-    res.json(guestbooks);
+    // res.json(guestbooks);
+    res.render('guestbooks', {
+      title: '全部留言',
+      guestbooks: guestbooks
+    });
   });
 });
 

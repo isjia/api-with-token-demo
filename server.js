@@ -1,4 +1,5 @@
 var express = require('express');
+var path = require('path');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var mongoose = require('mongoose');
@@ -30,6 +31,10 @@ mongoose.connect(config.database); // 连接数据库
 var app = express();
 app.use(allowCrossDomain);
 app.set('superSecret', config.secret); // 设置 app 的超级密码，即用来生成摘要的密码
+
+app.set('views', './app/views/pages');
+app.set('view engine', 'jade');
+app.use(express.static(path.join(__dirname, 'public')));
 
 // 用 body parser 来解析post 和 url 信息中的参数
 app.use(bodyParser.urlencoded({extended: false}));

@@ -1,0 +1,36 @@
+extends ../layout
+
+block content
+  .container
+    .row
+    each guestbook in guestbooks
+      .panel.panel-default
+        .panel-heading #{guestbook.site_name}
+        .panel-body
+          p #{moment(guestbook.created_at).format('YYYY/MM/DD')}
+        table.table.table-hover
+          thead
+            tr
+              th name
+              th email
+              th phone
+              th message
+              th status
+              th created at
+              th 详情
+              th 更新
+              th 删除
+          tbody
+            each message in guestbook.messages
+              tr(class="message-id-#{message._id}")
+                td #{message.name}
+                td #{message.email}
+                td #{message.phone}
+                td #{message.message}
+                td #{message.status}
+                td #{moment(message.created_at).format('YYYY/MM/DD')}
+                td: a(target="_blank", href="#") 查看
+                td: a(target="_blank", href="#") 修改
+                td
+                  button.btn.btn-danger.del(type="button", data-id="#{message._id}") 删除
+
